@@ -125,7 +125,6 @@
 //     </div>
 //   );
 // }
-
 import { useEffect, useRef, useState } from "react";
 import vj from "../assets/vj.png";
 import CV from "../assets/Jeeva - web CV.pdf";
@@ -180,7 +179,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div className="relative w-screen min-h-screen md:h-screen bg-[#0A0A0A] text-white font-inter  overflow-x-hidden md:overflow-hidden ">
+    <div className="relative w-screen min-h-screen md:h-screen bg-[#0A0A0A] text-white font-inter overflow-x-hidden md:overflow-hidden ">
       {/* ============================================================
           DESKTOP HERO (md and up) — UNCHANGED original design.
           Hidden below md so nothing overlaps on mobile.
@@ -267,7 +266,7 @@ export default function HeroSection() {
           MOBILE HERO (below 768px) — stacked, centered, no overlap.
           Pure Tailwind, no custom CSS file needed.
          ============================================================ */}
-      <section className="hero-mobile md:hidden relative w-full max-w-full flex flex-col items-center text-center px-20 py-12 gap-10 overflow-x-hidden box-border">
+      <section className="hero-mobile md:hidden relative w-full max-w-full flex flex-col items-center text-center px-5 gap-2 pb-[-5] overflow-x-hidden box-border">
         {/* Circle + Model — centered with the same reliable
             left:50% + translateX(-50%) technique used on desktop,
             instead of margin:auto (which was drifting to one side). */}
@@ -291,7 +290,7 @@ export default function HeroSection() {
             className="absolute z-10 block grayscale contrast-[1.05] model-fade model-transition"
             style={{
               width: "min(70vw, 260px)",
-              height: "100%",
+              height: "90%",
               left: "50%",
               top: 0,
               objectFit: "cover",
@@ -322,11 +321,11 @@ export default function HeroSection() {
 
 
         {/* Left Block content, centered on mobile */}
-        <div className="leftblock-mobile w-full max-w-[320px] pt-1 flex flex-col items-center gap-">
+        <div className="leftblock-mobile w-full max-w-[320px] flex flex-col items-center gap-">
           <p className="text-[13px] leading-relaxed text-[#CFCFCF] font-semibold tracking-wider">
             Creating Modern Web Experiences.
           </p>
-          <div className="flex flex-col items-center gap-3 pt-5">
+          <div className="flex flex-col items-center gap-3">
             {/* <a
               href="#about"
               className="readmore inline-block text-xs font-bold tracking-wider text-white no-underline pb-1 border-b-2 border-white transition-colors duration-300 hover:text-[#FFD400] hover:border-[#FFD400]"
