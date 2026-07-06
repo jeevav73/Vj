@@ -300,13 +300,37 @@ const VALUES = [
 
 export default function About() {
   const portraitRef = useRef(null);
+  const mobilePortraitRef = useRef(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isTouchDevice, setIsTouchDevice] = useState(false);
-  const mobilePortraitRef = useRef(null);
+  const [desktopVisible, setDesktopVisible] = useState(false);
+  const [mobileVisible, setMobileVisible] = useState(false);
 
   useEffect(() => {
     // Detect if device supports touch
     setIsTouchDevice(window.matchMedia("(hover: none)").matches);
+  }, []);
+
+  // Scroll-reveal: image shows while the box is in view, and reverts
+  // back to hidden when scrolled away — works the same on mobile.
+  useEffect(() => {
+    const targets = [
+      { el: portraitRef.current, setter: setDesktopVisible },
+      { el: mobilePortraitRef.current, setter: setMobileVisible },
+    ].filter((t) => t.el);
+
+    const observers = targets.map(({ el, setter }) => {
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          setter(entry.isIntersecting);
+        },
+        { threshold: 0.3 }
+      );
+      io.observe(el);
+      return io;
+    });
+
+    return () => observers.forEach((io) => io.disconnect());
   }, []);
 
   const onMove = (e) => {
@@ -328,8 +352,8 @@ export default function About() {
       <main className="abt-main px-4 sm:px-8 md:px-16 pt-2 sm:pt-3 md:pt-4 pb-20 sm:pb-28 md:pb-32 max-w-6xl mx-auto">
 
         {/* ============================================================
-            DESKTOP HERO (md and up) — UNCHANGED original design.
-            Hidden below md so mobile gets its own dedicated markup.
+            DESKTOP HERO (md and up) — UNCHANGED original design,
+            image now reveals on scroll-into-view instead of hover.
            ============================================================ */}
         <div className="abt-hero">
           <div>
@@ -354,7 +378,7 @@ export default function About() {
 
           <div
             ref={portraitRef}
-            className="abt-portrait group"
+            className="abt-portrait"
             onMouseMove={onMove}
             onMouseLeave={onLeave}
             style={{
@@ -366,42 +390,53 @@ export default function About() {
               style={{ transform: `translate(${tilt.x * 30}px, ${tilt.y * 30}px)` }}
             />
 
-            <span className="abt-portrait-initial transition-opacity duration-500 ease-out group-hover:opacity-0">
+            <span
+              className={`abt-portrait-initial transition-opacity duration-700 ease-out ${
+                desktopVisible ? "opacity-0" : "opacity-100"
+              }`}
+            >
               Vj.
             </span>
 
             <img
               src={jeevaPhoto}
               alt="Jeeva V"
-              className="absolute inset-0 w-full h-full object-cover object-top rounded-[inherit] grayscale opacity-0 scale-105 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:grayscale-0 pointer-events-none"
+              className={`absolute inset-0 w-full h-full object-cover object-top rounded-[inherit] transition-all duration-700 ease-out pointer-events-none ${
+                desktopVisible
+                  ? "opacity-100 scale-100 grayscale-0"
+                  : "opacity-0 scale-105 grayscale"
+              }`}
             />
           </div>
         </div>
 
         {/* ============================================================
             MOBILE HERO (below md) — image first, then text, centered.
-            Dedicated markup, no CSS order tricks.
+            Same scroll-into-view reveal as desktop, no tap/hover needed.
            ============================================================ */}
         <div className="abt-hero-mobile flex flex-col items-center text-center gap-6 mb-16">
           <div
             ref={mobilePortraitRef}
-            className="abt-portrait-mobile group relative w-[200px] h-[250px] max-[380px]:w-[160px] max-[380px]:h-[200px] rounded-[20px] border border-[#232326] overflow-hidden bg-gradient-to-br from-[#17171a] to-[#0d0d0e]"
-            onMouseMove={onMove}
-            onMouseLeave={onLeave}
-            style={{
-              transform: `perspective(800px) rotateX(${-tilt.y * 8}deg) rotateY(${tilt.x * 10}deg)`
-            }}
+            className="abt-portrait-mobile relative w-[200px] h-[250px] max-[380px]:w-[160px] max-[380px]:h-[200px] rounded-[20px] border border-[#232326] overflow-hidden bg-gradient-to-br from-[#17171a] to-[#0d0d0e]"
           >
             <div className="abt-portrait-glow-mobile" />
 
-            <span className="abt-portrait-initial transition-opacity duration-500 ease-out group-hover:opacity-0">
+            <span
+              className={`abt-portrait-initial transition-opacity duration-700 ease-out ${
+                mobileVisible ? "opacity-0" : "opacity-100"
+              }`}
+            >
               Vj.
             </span>
 
             <img
               src={jeevaPhoto}
               alt="Jeeva V"
-              className="absolute inset-0 w-full h-full object-cover object-top grayscale opacity-0 scale-105 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100 group-hover:grayscale-0"
+              className={`absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out ${
+                mobileVisible
+                  ? "opacity-100 scale-100 grayscale-0"
+                  : "opacity-0 scale-105 grayscale"
+              }`}
             />
           </div>
 
@@ -622,8 +657,6 @@ export default function About() {
           line-height: 1.6;
         }
 
-        /* Mobile hero text tweaks — desktop .abt-hero itself no longer
-           needs to collapse since it's hidden entirely below md now. */
         .abt-hero-mobile .abt-lede,
         .abt-hero-mobile .abt-body {
           max-width: 100%;

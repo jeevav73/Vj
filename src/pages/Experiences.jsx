@@ -316,7 +316,7 @@ const EXPERIENCES = [
     year: "Jul 2024 - Aug 2024",
     role: "AI in Cloud",
     company: "Object Automation System Solutions",
-    location: "chennai, IN",
+    location: " Chennai, IN",
     desc: "Developed and implemented machine learning models on cloud platforms such as Microsoft Azure in conjunction with a team.",
     tags: ["ML", "Microsoft Azure"]
   },
@@ -373,7 +373,7 @@ export default function Experience() {
 
   return (
     <div className="bg-[#0A0A0B] min-h-screen text-[#F5F5F3] overflow-x-hidden">
-      <main className="px-4 max-[380px]:px-3 sm:px-8 md:px-16 pt-2 max-[380px]:pt-2 sm:pt-36 md:pt-48 pb-16 max-[380px]:pb-12 sm:pb-28 md:pb-32 max-w-5xl mx-auto box-border">
+      <main className="px-4 max-[380px]:px-3 sm:px-8 md:px-16 pt-24 max-[380px]:pt-20 sm:pt-36 md:pt-48 pb-16 max-[380px]:pb-12 sm:pb-28 md:pb-32 max-w-5xl mx-auto box-border">
         {/* Eyebrow */}
         <p
           className="uppercase tracking-[3px] text-[10px] md:text-[11px] text-[#FFD400] mb-3 md:mb-4"

@@ -125,6 +125,7 @@
 //     </div>
 //   );
 // }
+
 import { useEffect, useRef, useState } from "react";
 import vj from "../assets/vj.png";
 import CV from "../assets/Jeeva - web CV.pdf";
@@ -179,7 +180,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <div className="relative w-screen min-h-screen md:h-screen bg-[#0A0A0A] text-white font-inter overflow-x-hidden md:overflow-hidden ">
+    <div className="relative w-screen min-h-screen md:h-screen bg-[#0A0A0A] text-white font-inter  overflow-x-hidden md:overflow-hidden ">
       {/* ============================================================
           DESKTOP HERO (md and up) — UNCHANGED original design.
           Hidden below md so nothing overlaps on mobile.
@@ -266,25 +267,36 @@ export default function HeroSection() {
           MOBILE HERO (below 768px) — stacked, centered, no overlap.
           Pure Tailwind, no custom CSS file needed.
          ============================================================ */}
-      <section className="hero-mobile md:hidden relative w-full max-w-full flex flex-col items-center text-center px-5  gap-2 overflow-x-hidden box-border">
-        {/* Circle + Model */}
+      <section className="hero-mobile md:hidden relative w-full max-w-full flex flex-col items-center text-center px-20 py-12 gap-10 overflow-x-hidden box-border">
+        {/* Circle + Model — centered with the same reliable
+            left:50% + translateX(-50%) technique used on desktop,
+            instead of margin:auto (which was drifting to one side). */}
         <div
-          className="relative mx-auto flex items-start justify-center "
-          style={{ width: "min(88vw, 420px)", height: "min(78vh, 460px)" }}
+          className="relative w-full mx-auto"
+          style={{ maxWidth: "420px", height: "min(78vh, 460px)" }}
         >
           <div
-            className="circle-mobile absolute top-15 left-0 right-0 m-auto rounded-full bg-[#FFD400]"
-            style={{ width: "min(80vw, 380px)", height: "min(80vw, 380px)" }}
+            className="circle-mobile circle-scale absolute rounded-full bg-[#FFD400]"
+            style={{
+              width: "min(80vw, 380px)",
+              height: "min(80vw, 380px)",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%) scale(0)",
+            }}
           />
           <img
             src={vj}
             alt="Model"
-            className="relative z-10 block grayscale contrast-[1.05]"
+            className="absolute z-10 block grayscale contrast-[1.05] model-fade model-transition"
             style={{
-              width: "min(250vw, 260px)",
-              height: "90%",
+              width: "min(70vw, 260px)",
+              height: "100%",
+              left: "50%",
+              top: 0,
               objectFit: "cover",
               objectPosition: "center top",
+              transform: "translateX(-50%) translateY(20px)",
             }}
           />
         </div>
@@ -307,14 +319,14 @@ export default function HeroSection() {
             </span>
           ))}
         </div>
-        
+
 
         {/* Left Block content, centered on mobile */}
-        <div className="leftblock-mobile w-full max-w-[320px] flex flex-col items-center gap-">
+        <div className="leftblock-mobile w-full max-w-[320px] pt-1 flex flex-col items-center gap-">
           <p className="text-[13px] leading-relaxed text-[#CFCFCF] font-semibold tracking-wider">
             Creating Modern Web Experiences.
           </p>
-          <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-col items-center gap-3 pt-5">
             {/* <a
               href="#about"
               className="readmore inline-block text-xs font-bold tracking-wider text-white no-underline pb-1 border-b-2 border-white transition-colors duration-300 hover:text-[#FFD400] hover:border-[#FFD400]"
